@@ -26,6 +26,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private Activity activity;
     private ArrayList donation_id, donar_address, food_type, quantity_serves;
     public OnItemClickListener mListener;
+    public MyDatabaseHelper dbHelper;
 
     public interface OnItemClickListener
     {
@@ -70,20 +71,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
        holder.request_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Request Sent!", Toast.LENGTH_SHORT).show();
+                // check whether dbHelper needs to be initialized or nt...
+                boolean isUpdated=dbHelper.updateToBooked(donation_id.get(position);
+                if(isUpdated)
+                    Toast.makeText(context, donation_id,get(position)+" booked", Toast.LENGTH_SHORT).show();
 
+                }
+                Toast.makeText(context,"Request Sent!", Toast.LENGTH_SHORT).show();
+                
                 Intent intent = new Intent(view.getContext(), UserActivity.class);
-                intent.putExtra("id", String.valueOf(donation_id.get(position)));
-                intent.putExtra("address", String.valueOf(donar_address.get(position)));
-                intent.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
+                //intent.putExtra("id", String.valueOf(donation_id.get(position)));
+                //intent.putExtra("address", String.valueOf(donar_address.get(position)));
+                //intent.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
                 //intent.putExtra("pages", String.valueOf(book_pages.get(position)));
-                //activity.startActivityForResult(intent, 1);
-               /* view.getContext().startActivity(intent);
-                boolean isAdded=dbManager.addToBooked(donationModel1);
-                if(isAdded)
-                    Toast.makeText(context, donation_id+" added to Watchlist", Toast.LENGTH_SHORT).show();
-*/
-            }
+                activity.startActivityForResult(intent, 1);
+                view.getContext().startActivity(intent);
+                
         });
 
        /* watchButton.setOnClickListener(new View.OnClickListener() {
