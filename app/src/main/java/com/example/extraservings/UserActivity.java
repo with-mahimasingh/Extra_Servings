@@ -86,10 +86,13 @@ public class UserActivity extends AppCompatActivity {
         } else {
             if(cursor.moveToFirst()){
                 do {
-                    donation_id.add(cursor.getString(0));
-                    donar_address.add(cursor.getString(1));
-                    food_type.add(cursor.getString(2));
-                    quantity_serves.add(cursor.getString(3));
+                    if(cursor.getString(3)=="booked" || cursor.getString(3)=="delivered"){
+                        
+                        donation_id.add(cursor.getString(0));
+                        donar_address.add(cursor.getString(1));
+                        food_type.add(cursor.getString(2));
+                        quantity_serves.add(cursor.getString(4));
+                    }
                 }while(cursor.moveToNext());
             }
             empty_imageview.setVisibility(View.GONE);
