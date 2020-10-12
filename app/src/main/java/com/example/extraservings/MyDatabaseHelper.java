@@ -46,13 +46,14 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addDonar(String address, String foodType, int quantity) {
+    void addDonar(String address, String foodType, String foodStatus, int quantity) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
 
         cv.put(COLUMN_ADDRESS, address);
         cv.put(COLUMN_TYPE, foodType);
+        cv.put(COLUMN_STATUS, foodStatus);
         cv.put(COLUMN_QUANTITY, quantity);
 
         long result = db.insert(TABLE_NAME, null, cv);
@@ -61,6 +62,34 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Donated Successfully!", Toast.LENGTH_SHORT).show();
         }
+    }
+    
+    public boolean updateToBooked(String row_id) {
+        open();
+        Cursor cursor =readAllData;
+
+        if(cursor.moveToFirst()){
+            do{
+                if(row_id.equals(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_STATUS))))
+                {
+                    SQLiteDatabase db = this.getWritableDatabase();
+                    ContentValues cv = new ContentValues();
+                    cv.put(COLUMN_ADDRESS, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_ADDRESS)));
+                    cv.put(COLUMN_TYPE, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_TYPE)));
+                    cv.put(COLUMN_STATUS, "booked");
+                    cv.put(COLUMN_QUANTITY, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_QUANTITY)));
+
+                    long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
+                    if (result == -1) {
+                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+            }while (cursor.moveToNext());
+        }
+        return false;
     }
 
     Cursor readAllData() {
