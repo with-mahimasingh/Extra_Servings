@@ -32,9 +32,9 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
     TextView no_data;
     Button btn_request;
     MyDatabaseHelper myDB;
-    ArrayList<String> donation_id, donar_address, food_type, quantity_serves;
+    ArrayList<String> donation_id, donar_address, food_type, quantity_serves, food_status;
     CustomAdapter customAdapter;
-    String id, address, food, number;
+    String id, address, food, number, status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
+        food_status = new ArrayList<>();
 
         storeDataInArrays();
 
@@ -77,12 +78,14 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         } else {
             if(cursor.moveToFirst()){
                 do {
-                donation_id.add(cursor.getString(0));
-                donar_address.add(cursor.getString(1));
-                food_type.add(cursor.getString(2));
-                quantity_serves.add(cursor.getString(3));
+                    if(cursor.getString(3)=="available"){
+                        donation_id.add(cursor.getString(0));
+                        donar_address.add(cursor.getString(1));
+                        food_type.add(cursor.getString(2));
+                        quantity_serves.add(cursor.getString(4));
+                    }
             }while(cursor.moveToNext());
-            }
+          }
           empty_imageview.setVisibility(View.GONE);
            no_data.setVisibility(View.GONE);
         }
@@ -94,6 +97,8 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
                 Toast.makeText(getApplicationContext(),"Sent request!",Toast.LENGTH_SHORT).show();
                 //startActivity(new Intent(FoodMarket.this, UserActivity.class));
               //  final DonationModel donationModel1= new DonationModel();
+                  updateToBooked
+             
 
                 //Intent intent = new Intent(FoodMarket.this, UserActivity.class);
                 //startActivity(intent);
