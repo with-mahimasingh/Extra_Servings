@@ -96,7 +96,7 @@ public class Donate extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyDatabaseHelper myDB = new MyDatabaseHelper(Donate.this);
-                myDB.addDonar(edt_address.getText().toString().trim(),foodType,quantity);
+                myDB.addDonar(edt_address.getText().toString().trim(),foodType, "available", quantity);
             }
         });
 
