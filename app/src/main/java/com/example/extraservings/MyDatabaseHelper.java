@@ -22,6 +22,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ADDRESS = "donate_address";
     public static final String COLUMN_TYPE = "food_type";
     public static final String  COLUMN_QUANTITY = "quantity_serves";
+    public static final String  COLUMN_STATUS = "food_status";
 
     MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +35,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ADDRESS + " TEXT, " +
                 COLUMN_TYPE + " TEXT, " +
+                COLUMN_STATUS + " TEXT, " +
                 COLUMN_QUANTITY + " INTEGER);";
         db.execSQL(query);
 
@@ -46,7 +48,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addDonar(String address, String foodType, int quantity) {
+    void addDonar(String address, String foodType, int quantity, string foodStatus) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -54,6 +56,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ADDRESS, address);
         cv.put(COLUMN_TYPE, foodType);
         cv.put(COLUMN_QUANTITY, quantity);
+        cv.put(COLUMN_STATUS, foodStatus);
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
