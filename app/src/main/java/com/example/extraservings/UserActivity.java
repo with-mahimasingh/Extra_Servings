@@ -57,6 +57,16 @@ public class UserActivity extends AppCompatActivity {
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
+        
+        Integer id_toUpdate = intent.getIntExtra("ID");
+        
+        boolean isUpdated=myDB.updateToBooked(id_toUpdate);
+        if(isUpdated){
+            Toast.makeText(context, id_toUpdate+" booked", Toast.LENGTH_SHORT).show();
+         }
+        else{
+            Toast.makeText(context, "Error in booking", Toast.LENGTH_SHORT).show();
+        }
 
         storeDataInArrays();
 
