@@ -31,13 +31,13 @@ public class CheckNeedy extends AppCompatActivity {
     TextView no_data;
     Button btn_request;
     MyDatabaseHelper myDB;
-    ArrayList<String> donation_id, donar_address, food_type, quantity_serves;
+    ArrayList<String> donation_id, donar_address, food_type, quantity_serves,status;
     StatusCheckAdapter statusCheckAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_check_needy);
 
         recyclerView = findViewById(R.id.recyclerView);
         btn_request = findViewById(R.id.btn_request);
@@ -63,7 +63,7 @@ public class CheckNeedy extends AppCompatActivity {
         //recyclerView.setAdapter(userAdapter);
         //recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
 
-        statusCheckAdapter = new StatusCheckAdapter(CheckNeedy.this, this, donation_id, donar_address,food_type, quantity_serves);
+        statusCheckAdapter = new StatusCheckAdapter(CheckNeedy.this, this, donation_id, donar_address,food_type, quantity_serves,status);
         recyclerView.setAdapter(statusCheckAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(CheckNeedy.this));
 
@@ -84,12 +84,14 @@ public class CheckNeedy extends AppCompatActivity {
             no_data.setVisibility(View.VISIBLE);
         } else {
             if(cursor.moveToFirst()){
-                do {
+                do{
+                if(cursor.getString(3).equals("booked")){
                     donation_id.add(cursor.getString(0));
                     donar_address.add(cursor.getString(1));
                     food_type.add(cursor.getString(2));
-                    quantity_serves.add(cursor.getString(3));
-                }while(cursor.moveToNext());
+                    quantity_serves.add(cursor.getString(4));
+                }
+            }while(cursor.moveToNext());
             }
             empty_imageview.setVisibility(View.GONE);
             no_data.setVisibility(View.GONE);

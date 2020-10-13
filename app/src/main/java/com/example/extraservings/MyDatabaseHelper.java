@@ -4,6 +4,7 @@ package com.example.extraservings;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -12,16 +13,24 @@ import androidx.annotation.Nullable;
 
 class MyDatabaseHelper extends SQLiteOpenHelper {
 
-
+    private MyDatabaseHelper dbHelper;
+    private SQLiteDatabase database;
     private Context context;
     public static final String DATABASE_NAME = "donate.db";
     private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_NAME = "my_donation";
     public static final String COLUMN_ID = "_id";
+    public static final String  COLUMN_STATUS = "food_status";
     public static final String COLUMN_ADDRESS = "donate_address";
     public static final String COLUMN_TYPE = "food_type";
     public static final String  COLUMN_QUANTITY = "quantity_serves";
+
+    public MyDatabaseHelper open() throws SQLException {
+        this.dbHelper = new MyDatabaseHelper(this.context);
+        this.database = this.dbHelper.getWritableDatabase();
+        return this;
+    }
 
     MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +43,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ADDRESS + " TEXT, " +
                 COLUMN_TYPE + " TEXT, " +
+                COLUMN_STATUS + " TEXT, " +
                 COLUMN_QUANTITY + " INTEGER);";
         db.execSQL(query);
 
@@ -46,15 +56,15 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addDonar(String address, String foodType, String foodStatus, int quantity) {
+    void addDonar(String address, String foodType, int quantity, String foodStatus) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
 
         cv.put(COLUMN_ADDRESS, address);
         cv.put(COLUMN_TYPE, foodType);
-        cv.put(COLUMN_STATUS, foodStatus);
         cv.put(COLUMN_QUANTITY, quantity);
+        cv.put(COLUMN_STATUS,foodStatus);
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -63,10 +73,9 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Donated Successfully!", Toast.LENGTH_SHORT).show();
         }
     }
-    
     public boolean updateToBooked(String row_id) {
         open();
-        Cursor cursor =readAllData;
+        Cursor cursor =readAllData();
 
         if(cursor.moveToFirst()){
             do{
@@ -89,7 +98,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                 }
             }while (cursor.moveToNext());
         }
-        return false;
+        return true;
     }
 
     Cursor readAllData() {

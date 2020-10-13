@@ -7,14 +7,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-public class splashScreenActivity extends AppCompatActivity {
+public class splashScreenActivity extends AppCompatActivity implements CheckNetwork{
     ImageView imageView, splashImage;
     TextView textView;
     LottieAnimationView lottieAnimationView;
 
+    @Override
+    public void handleNetworkUnavailable() {
+        Toast.makeText(this, "Network Unavailable. Please check your Network Settings.", Toast.LENGTH_SHORT).show();
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +39,25 @@ public class splashScreenActivity extends AppCompatActivity {
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
         int SPLASH_DISPLAY_LENGTH = 3500;
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(splashScreenActivity.this,RegisterActivity.class);
-                splashScreenActivity.this.startActivity(mainIntent);
-                splashScreenActivity.this.finish();
-            }
-        }, SPLASH_DISPLAY_LENGTH);
+        if (isOnline(this)) {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    /* Create an Intent that will start the Menu-Activity. */
+
+                    Intent mainIntent = new Intent(splashScreenActivity.this, RegisterActivity.class);
+                    splashScreenActivity.this.startActivity(mainIntent);
+                    splashScreenActivity.this.finish();
+                }
+            }, SPLASH_DISPLAY_LENGTH);
+        }
+        else
+            Toast.makeText(this, "Unable to Connect. Please check your Internet Connection.", Toast.LENGTH_SHORT).show();
+
     }
+
+
 }
 
 

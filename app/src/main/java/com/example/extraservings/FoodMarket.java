@@ -32,9 +32,9 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
     TextView no_data;
     Button btn_request;
     MyDatabaseHelper myDB;
-    ArrayList<String> donation_id, donar_address, food_type, quantity_serves;
+    ArrayList<String> donation_id, donar_address, food_type, quantity_serves, food_status;
     CustomAdapter customAdapter;
-    String id, address, food, number;
+    String id, address, food, number, status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,11 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
+        food_status = new ArrayList<>();
 
         storeDataInArrays();
 
-        customAdapter = new CustomAdapter(FoodMarket.this, this, donation_id, donar_address,food_type, quantity_serves);
+        customAdapter = new CustomAdapter(FoodMarket.this, this, donation_id, donar_address,food_type,quantity_serves,food_status);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(FoodMarket.this));
 
@@ -77,18 +78,24 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         } else {
             if(cursor.moveToFirst()){
                 do {
-                donation_id.add(cursor.getString(0));
-                donar_address.add(cursor.getString(1));
-                food_type.add(cursor.getString(2));
-                quantity_serves.add(cursor.getString(3));
-            }while(cursor.moveToNext());
+                   // donation_id.add(cursor.getString(0));
+                    //donar_address.add(cursor.getString(1));
+                    //food_type.add(cursor.getString(2));
+                    //quantity_serves.add(cursor.getString(3));
+                    if(cursor.getString(3).equals("available")){
+                        donation_id.add(cursor.getString(0));
+                        donar_address.add(cursor.getString(1));
+                        food_type.add(cursor.getString(2));
+                        quantity_serves.add(cursor.getString(4));
+                    }
+                }while(cursor.moveToNext());
             }
           empty_imageview.setVisibility(View.GONE);
            no_data.setVisibility(View.GONE);
         }
 
 
-      /*  btn_request.setOnClickListener(new View.OnClickListener() {
+      /* btn_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Sent request!",Toast.LENGTH_SHORT).show();
@@ -118,24 +125,6 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         return super.onOptionsItemSelected(item);
     }
 
-   /* void getAndSetIntentData(){
-        if(getIntent().hasExtra("id") && getIntent().hasExtra("address") &&
-                getIntent().hasExtra("food") && getIntent().hasExtra("number")){
-            //Getting Data from Intent
-            id = getIntent().getStringExtra("id");
-            address = getIntent().getStringExtra("address");
-            food = getIntent().getStringExtra("food");
-            number = getIntent().getStringExtra("number");
-
-            //Setting Intent Data
-            //address.setText(address);
-            //author_input.setText(food);
-            //pages_input.setText(number);
-            //Log.d("stev", title+" "+author+" "+pages);
-        }else{
-            Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
-        }
-    }*/
     void confirmDialog(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

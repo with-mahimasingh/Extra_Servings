@@ -21,7 +21,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-public class VerifyPhoneNumber extends AppCompatActivity {
+public class VerifyPhoneNumber extends AppCompatActivity implements CheckNetwork {
     private String verificationId;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
@@ -103,4 +103,10 @@ public class VerifyPhoneNumber extends AppCompatActivity {
             Toast.makeText(VerifyPhoneNumber.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
+
+    @Override
+    public void handleNetworkUnavailable() {
+        Toast.makeText(this, "Unable to Connect. Please check your Network Connection.", Toast.LENGTH_SHORT).show();
+
+    }
 }

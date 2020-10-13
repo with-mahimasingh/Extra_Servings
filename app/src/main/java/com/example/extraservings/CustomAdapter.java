@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     private Context context;
     private Activity activity;
-    private ArrayList donation_id, donar_address, food_type, quantity_serves;
+    private ArrayList donation_id, donar_address, food_type, quantity_serves, status;
     public OnItemClickListener mListener;
+    public MyDatabaseHelper dbHelper;
 
     public interface OnItemClickListener
     {
@@ -38,13 +40,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.mListener = mListener;
     }
 
-    CustomAdapter(Activity activity, Context context, ArrayList donation_id, ArrayList donar_address, ArrayList food_type, ArrayList quantity_serves) {
+    CustomAdapter(Activity activity, Context context, ArrayList donation_id, ArrayList donar_address, ArrayList food_type, ArrayList quantity_serves, ArrayList status) {
         this.activity = activity;
         this.context = context;
         this.donation_id = donation_id;
         this.donar_address = donar_address;
         this.food_type = food_type;
         this.quantity_serves = quantity_serves;
+        this.status= status;
     }
 
     @NonNull
@@ -64,6 +67,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.donar_address_txt.setText(String.valueOf(donar_address.get(position)));
         holder.foodType_txt.setText(String.valueOf(food_type.get(position)));
         holder.quantityServes_txt.setText(String.valueOf(quantity_serves.get(position)));
+      //  holder.quantityServes_txt.setText(String.valueOf(quantity_serves.get(position)));
 
 
         //Recyclerview onClickListener
@@ -72,22 +76,34 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             public void onClick(View view) {
                 Toast.makeText(context,"Request Sent!", Toast.LENGTH_SHORT).show();
 
+              //  String pos= String.valueOf(donation_id.get(position));
+                //boolean isUpdated = dbHelper.updateToBooked(pos);
+                //if (isUpdated)
+                  //  Toast.makeText(context, donation_id.get(position) + " booked", Toast.LENGTH_SHORT).show();
+
+
+                Toast.makeText(context, "Request Sent!", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(view.getContext(), UserActivity.class);
+
                 intent.putExtra("id", String.valueOf(donation_id.get(position)));
                 intent.putExtra("address", String.valueOf(donar_address.get(position)));
                 intent.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
+                intent.putExtra("ID",  String.valueOf(donation_id.get(position)));
+
                 //intent.putExtra("pages", String.valueOf(book_pages.get(position)));
                 //activity.startActivityForResult(intent, 1);
-               /* view.getContext().startActivity(intent);
-                boolean isAdded=dbManager.addToBooked(donationModel1);
-                if(isAdded)
-                    Toast.makeText(context, donation_id+" added to Watchlist", Toast.LENGTH_SHORT).show();
-*/
+
+
+                activity.startActivityForResult(intent, 1);
+                view.getContext().startActivity(intent);
             }
         });
 
+
        /* watchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+            @Override[-'
+            ]=\
             public void onClick(View v) {
                 boolean isAdded=dbManager.addToWatchlist(companyToSave);
                 if(isAdded)
@@ -96,6 +112,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             }
         });*/
     }
+
 
 
 

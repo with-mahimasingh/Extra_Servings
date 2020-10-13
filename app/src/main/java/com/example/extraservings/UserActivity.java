@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -44,29 +45,32 @@ public class UserActivity extends AppCompatActivity {
         btn_request = findViewById(R.id.btn_request);
         empty_imageview = findViewById(R.id.empty_imageview);
         no_data = findViewById(R.id.no_data);
-        /*add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DonationActivity.class);
-                startActivity(intent);
-            }
-        });*/
+
+       // Intent intent = new Intent(UserActivity.this.getApplicationContext(), UserActivity.class);
 
         myDB = new MyDatabaseHelper(UserActivity.this);
         donation_id = new ArrayList<>();
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
+        String id = getIntent().getStringExtra("ID");
 
+
+        Integer id_toUpdate = Integer.parseInt(id);
+
+        boolean isUpdated=myDB.updateToBooked(id);
+        if(isUpdated){
+            Toast.makeText(getApplicationContext(), id_toUpdate+" booked", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Error in booking", Toast.LENGTH_SHORT).show();
+        }
         storeDataInArrays();
 
         userAdapter = new UserAdapter(UserActivity.this, this, donation_id, donar_address,food_type, quantity_serves);
         recyclerView.setAdapter(userAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
 
-       // userBookingAdapter = new UserBookingAdapter(UserActivity.this, this, donation_id, donar_address,food_type, quantity_serves);
-        //recyclerView.setAdapter(userBookingAdapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
 
     }
 
@@ -84,16 +88,19 @@ public class UserActivity extends AppCompatActivity {
             empty_imageview.setVisibility(View.VISIBLE);
             no_data.setVisibility(View.VISIBLE);
         } else {
-            if(cursor.moveToFirst()){
+            if (cursor.moveToFirst()) {
                 do {
-                    donation_id.add(cursor.getString(0));
-                    donar_address.add(cursor.getString(1));
-                    food_type.add(cursor.getString(2));
-                    quantity_serves.add(cursor.getString(3));
-                }while(cursor.moveToNext());
+                    if (cursor.getString(3).equals("booked") || cursor.getString(3).equals("delivered")) {
+
+                        donation_id.add(cursor.getString(0));
+                        donar_address.add(cursor.getString(1));
+                        food_type.add(cursor.getString(2));
+                        quantity_serves.add(cursor.getString(4));
+                    }
+                } while (cursor.moveToNext());
+                empty_imageview.setVisibility(View.GONE);
+                no_data.setVisibility(View.GONE);
             }
-            empty_imageview.setVisibility(View.GONE);
-            no_data.setVisibility(View.GONE);
         }
     }
 
@@ -112,27 +119,5 @@ public class UserActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-   /* void confirmDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete All?");
-        builder.setMessage("Are you sure you want to delete all Data?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                MyDatabaseHelper myDB = new MyDatabaseHelper(FoodMarket.this);
-                myDB.deleteAllData();
-                //Refresh Activity
-                Intent intent = new Intent(FoodMarket.this, FoodMarket.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
 
-            }
-        });
-        builder.create().show();
-    }*/
 }
