@@ -152,10 +152,12 @@
         <EditText
             android:id="@+id/edt_address"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="130dp"
             android:layout_margin="10dp"
             android:typeface="serif"
-            android:hint="Please wait for a few seconds till we fetch your location"/>
+            android:hint="Please wait for a few seconds till we fetch your location
+                \nOR
+                \nEnter address to pickup"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
