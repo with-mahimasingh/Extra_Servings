@@ -52,8 +52,16 @@
                 android:typeface="serif"
                 android:gravity="center_vertical"
                 android:background="@drawable/view_bg"
-                android:drawableRight="@drawable/location"
-                android:text="Select the location"/>
+                android:text="Please enter your or NGO's name:"/>
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:typeface="sans"
+                android:hint="Enter name here"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -66,15 +74,21 @@
                 android:textColor="#000"
                 android:text="Enter/Select Address"/>
             <EditText
-                android:id="@+id/edt_address"
+                android:id="@+id/edt_addresstxt"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:typeface="sans"
-                android:hint="Enter/Select address of place where food is needed..."/>
-
+                android:hint="Please wait for a few seconds till we fetch your location"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:typeface="serif"
+                android:textColor="#A9A9A9"
+                android:text="(Edit above address if needed.)"/>
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"

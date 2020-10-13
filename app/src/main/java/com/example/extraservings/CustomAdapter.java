@@ -67,7 +67,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.donar_address_txt.setText(String.valueOf(donar_address.get(position)));
         holder.foodType_txt.setText(String.valueOf(food_type.get(position)));
         holder.quantityServes_txt.setText(String.valueOf(quantity_serves.get(position)));
-      //  holder.quantityServes_txt.setText(String.valueOf(quantity_serves.get(position)));
 
 
         //Recyclerview onClickListener
@@ -85,11 +84,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 Toast.makeText(context, "Request Sent!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(view.getContext(), UserActivity.class);
+                Intent intent1 = new Intent(view.getContext(), CheckNeedy.class);
 
                 intent.putExtra("id", String.valueOf(donation_id.get(position)));
                 intent.putExtra("address", String.valueOf(donar_address.get(position)));
                 intent.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
                 intent.putExtra("ID",  String.valueOf(donation_id.get(position)));
+
+                intent1.putExtra("id", String.valueOf(donation_id.get(position)));
+                intent1.putExtra("address", String.valueOf(donar_address.get(position)));
+                intent1.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
+                intent1.putExtra("ID",  String.valueOf(donation_id.get(position)));
 
                 //intent.putExtra("pages", String.valueOf(book_pages.get(position)));
                 //activity.startActivityForResult(intent, 1);
@@ -97,20 +102,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
                 activity.startActivityForResult(intent, 1);
                 view.getContext().startActivity(intent);
+                view.getContext().startActivity(intent1);
+
             }
         });
 
 
-       /* watchButton.setOnClickListener(new View.OnClickListener() {
-            @Override[-'
-            ]=\
-            public void onClick(View v) {
-                boolean isAdded=dbManager.addToWatchlist(companyToSave);
-                if(isAdded)
-                    Toast.makeText(getApplicationContext(), StocksAdapter.companyName+" added to Watchlist", Toast.LENGTH_SHORT).show();
 
-            }
-        });*/
     }
 
 

@@ -140,18 +140,7 @@
                     android:background="@drawable/minus"/>
             </RelativeLayout>
         </ScrollView>
-        <TextView
-            android:id="@+id/txt_select_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="5dp"
-            android:textColor="#000"
-            android:background="@drawable/view_bg"
-            android:typeface="serif"
-            android:gravity="center_vertical"
-            android:text="Select the location"
-            app:drawableRightCompat="@drawable/location" />
+
 
         <TextView
             android:layout_width="match_parent"
@@ -166,8 +155,14 @@
             android:layout_height="100dp"
             android:layout_margin="10dp"
             android:typeface="serif"
-            android:hint="Enter address to pickup"/>
-
+            android:hint="Please wait for a few seconds till we fetch your location"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:typeface="serif"
+            android:textColor="#A9A9A9"
+            android:text="(Edit above address if needed.)"/>
         <Button
             android:background="@color/plum"
             android:id="@+id/btn_donate"

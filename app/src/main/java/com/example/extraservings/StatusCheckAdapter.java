@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,16 +22,15 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
 
     private Context context;
     private Activity activity;
-    private ArrayList donation_id, donar_address, food_type, quantity_serves,status;
+    private ArrayList donation_id, donar_address, food_type, quantity_serves;
 
-    StatusCheckAdapter(Activity activity, Context context, ArrayList donation_id, ArrayList donar_address, ArrayList food_type, ArrayList quantity_serves,ArrayList status) {
+    StatusCheckAdapter(Activity activity, Context context, ArrayList donation_id, ArrayList donar_address, ArrayList food_type, ArrayList quantity_serves) {
         this.activity = activity;
         this.context = context;
         this.donation_id = donation_id;
         this.donar_address = donar_address;
         this.food_type = food_type;
         this.quantity_serves = quantity_serves;
-        this.status=status;
     }
 
     @NonNull
@@ -40,9 +38,8 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.status_row, parent, false);
+
         return new MyViewHolder(view);
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -52,8 +49,6 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
         holder.donar_address_txt.setText(String.valueOf(donar_address.get(position)));
         holder.foodType_txt.setText(String.valueOf(food_type.get(position)));
         holder.quantityServes_txt.setText(String.valueOf(quantity_serves.get(position)));
-
-
     }
 
     @Override
@@ -61,16 +56,13 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
         return donation_id.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder  {
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView donar_id_txt, donar_address_txt, foodType_txt, quantityServes_txt;
         LinearLayout mainLayout;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
-          //  itemView.setClickable(true);
-           // itemView.setOnClickListener(this);
-
             donar_id_txt = itemView.findViewById(R.id.donate_id_txt);
             donar_address_txt = itemView.findViewById(R.id.address_txt);
             foodType_txt = itemView.findViewById(R.id.foodType_txt);
@@ -79,13 +71,6 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
 
         }
 
-
-       /* @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(context, CheckNeedy.class);
-            intent.putExtra("word", donar_address.get(getAdapterPosition()).getClass());
-            context.startActivity(intent);
-        }*/
-        }
     }
 
+}

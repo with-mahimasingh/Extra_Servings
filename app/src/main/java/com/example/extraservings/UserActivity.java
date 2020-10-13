@@ -34,7 +34,6 @@ public class UserActivity extends AppCompatActivity {
     MyDatabaseHelper myDB;
     ArrayList<String> donation_id, donar_address, food_type, quantity_serves;
     UserAdapter userAdapter;
-    UserBookingAdapter userBookingAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,25 +52,26 @@ public class UserActivity extends AppCompatActivity {
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
-        String id = getIntent().getStringExtra("ID");
 
+        String id = getIntent().getStringExtra("ID");
+        if(!id.equals("-1")) {
 
         Integer id_toUpdate = Integer.parseInt(id);
 
-        boolean isUpdated=myDB.updateToBooked(id);
-        if(isUpdated){
-            Toast.makeText(getApplicationContext(), id_toUpdate+" booked", Toast.LENGTH_SHORT).show();
+            boolean isUpdated = myDB.updateToBooked(id);
+
+            if (isUpdated) {
+                Toast.makeText(getApplicationContext(), id_toUpdate + " booked", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Error in booking", Toast.LENGTH_SHORT).show();
+            }
+            storeDataInArrays();
+
+            userAdapter = new UserAdapter(UserActivity.this, this, donation_id, donar_address, food_type, quantity_serves);
+            recyclerView.setAdapter(userAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
+
         }
-        else{
-            Toast.makeText(getApplicationContext(), "Error in booking", Toast.LENGTH_SHORT).show();
-        }
-        storeDataInArrays();
-
-        userAdapter = new UserAdapter(UserActivity.this, this, donation_id, donar_address,food_type, quantity_serves);
-        recyclerView.setAdapter(userAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
-
-
     }
 
     @Override

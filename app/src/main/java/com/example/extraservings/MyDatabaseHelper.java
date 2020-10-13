@@ -79,7 +79,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                if(row_id.equals(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_STATUS))))
+                if(row_id.equals(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_ID))))
                 {
                     SQLiteDatabase db = this.getWritableDatabase();
                     ContentValues cv = new ContentValues();

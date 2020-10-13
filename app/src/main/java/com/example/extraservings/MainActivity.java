@@ -57,7 +57,10 @@ public class MainActivity extends AppCompatActivity {
         btn_userprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserActivity.class));
+
+                Intent intent = new Intent(v.getContext(), UserActivity.class);
+                intent.putExtra("ID","-1");
+                startActivity(intent);
 
             }
         });

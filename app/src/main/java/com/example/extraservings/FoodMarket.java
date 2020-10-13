@@ -60,6 +60,10 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(FoodMarket.this));
 
+        //customAdapter2 = new CustomAdapter2(FoodMarket.this, this, donation_id, donar_address,food_type,quantity_serves,food_status);
+        //recyclerView.setAdapter(customAdapter2);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(FoodMarket.this));
+
     }
 
     @Override
