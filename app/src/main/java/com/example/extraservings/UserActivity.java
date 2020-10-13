@@ -57,6 +57,16 @@ public class UserActivity extends AppCompatActivity {
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
+        
+        Integer id_toUpdate = intent.getIntExtra("ID");
+        
+        boolean isUpdated=myDB.updateToBooked(id_toUpdate);
+        if(isUpdated){
+            Toast.makeText(context, id_toUpdate+" booked", Toast.LENGTH_SHORT).show();
+         }
+        else{
+            Toast.makeText(context, "Error in booking", Toast.LENGTH_SHORT).show();
+        }
 
         storeDataInArrays();
 
@@ -86,10 +96,13 @@ public class UserActivity extends AppCompatActivity {
         } else {
             if(cursor.moveToFirst()){
                 do {
-                    donation_id.add(cursor.getString(0));
-                    donar_address.add(cursor.getString(1));
-                    food_type.add(cursor.getString(2));
-                    quantity_serves.add(cursor.getString(3));
+                    if(cursor.getString(3)=="booked" || cursor.getString(3)=="delivered"){
+                        
+                        donation_id.add(cursor.getString(0));
+                        donar_address.add(cursor.getString(1));
+                        food_type.add(cursor.getString(2));
+                        quantity_serves.add(cursor.getString(4));
+                    }
                 }while(cursor.moveToNext());
             }
             empty_imageview.setVisibility(View.GONE);
