@@ -71,18 +71,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
        holder.request_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // check whether dbHelper needs to be initialized or nt...
-                boolean isUpdated=dbHelper.updateToBooked(donation_id.get(position);
-                if(isUpdated)
-                    Toast.makeText(context, donation_id,get(position)+" booked", Toast.LENGTH_SHORT).show();
-
-                }
+                
                 Toast.makeText(context,"Request Sent!", Toast.LENGTH_SHORT).show();
                 
                 Intent intent = new Intent(view.getContext(), UserActivity.class);
-                //intent.putExtra("id", String.valueOf(donation_id.get(position)));
+                intent.putExtra("ID", donation_id.get(position));
                 //intent.putExtra("address", String.valueOf(donar_address.get(position)));
                 //intent.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
+                //intent.putExtra("status", "booked");
                 //intent.putExtra("pages", String.valueOf(book_pages.get(position)));
                 activity.startActivityForResult(intent, 1);
                 view.getContext().startActivity(intent);
