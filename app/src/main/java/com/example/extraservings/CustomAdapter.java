@@ -73,13 +73,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
        holder.request_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Request Sent!", Toast.LENGTH_SHORT).show();
-
-              //  String pos= String.valueOf(donation_id.get(position));
-                //boolean isUpdated = dbHelper.updateToBooked(pos);
-                //if (isUpdated)
-                  //  Toast.makeText(context, donation_id.get(position) + " booked", Toast.LENGTH_SHORT).show();
-
 
                 Toast.makeText(context, "Request Sent!", Toast.LENGTH_SHORT).show();
 
@@ -90,15 +83,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("address", String.valueOf(donar_address.get(position)));
                 intent.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
                 intent.putExtra("ID",  String.valueOf(donation_id.get(position)));
-
-                intent1.putExtra("id", String.valueOf(donation_id.get(position)));
-                intent1.putExtra("address", String.valueOf(donar_address.get(position)));
-                intent1.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
-                intent1.putExtra("ID",  String.valueOf(donation_id.get(position)));
-
-                //intent.putExtra("pages", String.valueOf(book_pages.get(position)));
-                //activity.startActivityForResult(intent, 1);
-
 
                 activity.startActivityForResult(intent, 1);
                 view.getContext().startActivity(intent);
@@ -135,9 +119,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             quantityServes_txt = itemView.findViewById(R.id.quantity_txt);
             mainLayout = itemView.findViewById(R.id.mainLayout);
             request_button= itemView.findViewById(R.id.btn_request);
-            //Animate Recyclerview
-            //  Animation translate_anim = AnimationUtils.loadAnimation(context, R.anim.translate_anim);
-            //mainLayout.setAnimation(translate_anim);
+
             request_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

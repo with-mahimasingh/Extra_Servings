@@ -15,18 +15,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="todo"/>
+      />
     <ImageView
         android:id="@+id/image1"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:src="@drawable/delivery"
         android:scaleType="fitCenter"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="todo">
+       >
     </ImageView>
 
     <TextView
@@ -38,6 +39,7 @@
         android:fontFamily="@font/fugaz_one"
         android:singleLine="true"
         android:text="EXTRA SERVINGS "
+        android:layout_marginTop="100dp"
         android:shadowColor="@color/cardview_dark_background"
         android:shadowDx="2"
         android:shadowDy="2"

@@ -61,9 +61,7 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(FoodMarket.this));
 
-        //customAdapter2 = new CustomAdapter2(FoodMarket.this, this, donation_id, donar_address,food_type,quantity_serves,food_status);
-        //recyclerView.setAdapter(customAdapter2);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(FoodMarket.this));
+
 
     }
 
@@ -83,10 +81,7 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         } else {
             if(cursor.moveToFirst()){
                 do {
-                   // donation_id.add(cursor.getString(0));
-                    //donar_address.add(cursor.getString(1));
-                    //food_type.add(cursor.getString(2));
-                    //quantity_serves.add(cursor.getString(3));
+
                     if(cursor.getString(3).equals("available")){
                         donation_id.add(cursor.getString(0));
                         donar_address.add(cursor.getString(1));
@@ -99,19 +94,6 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
            no_data.setVisibility(View.GONE);
         }
 
-
-      /* btn_request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Sent request!",Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(FoodMarket.this, UserActivity.class));
-              //  final DonationModel donationModel1= new DonationModel();
-
-                //Intent intent = new Intent(FoodMarket.this, UserActivity.class);
-                //startActivity(intent);
-
-            }
-        });*/
 
     }
 

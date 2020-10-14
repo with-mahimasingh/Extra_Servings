@@ -16,6 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="12dp">
 
@@ -48,14 +49,16 @@
 
             <TextView
                 android:id="@+id/address_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="Address 1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/donate_id_txt"
-                app:layout_constraintTop_toBottomOf="@+id/foodType_txt" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_request"
+                />
 
             <TextView
                 android:id="@+id/quantity_txt"
@@ -71,7 +74,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/foodType_txt"
+                app:layout_constraintLeft_toRightOf="@+id/btn_request"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button

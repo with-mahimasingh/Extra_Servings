@@ -50,7 +50,7 @@ public class CheckNeedy extends AppCompatActivity {
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
 
-        String id1 = getIntent().getStringExtra("ID");
+        /*String id1 = getIntent().getStringExtra("ID");
 
 
             Integer id_toUpdate = Integer.parseInt(id1);
@@ -61,7 +61,7 @@ public class CheckNeedy extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), id_toUpdate + " booked", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Error in booking", Toast.LENGTH_SHORT).show();
-            }
+            }*/
             storeDataInArrays();
 
             statusCheckAdapter = new StatusCheckAdapter(CheckNeedy.this, this, donation_id, donar_address, food_type, quantity_serves);

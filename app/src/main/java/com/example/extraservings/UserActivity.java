@@ -45,7 +45,6 @@ public class UserActivity extends AppCompatActivity {
         empty_imageview = findViewById(R.id.empty_imageview);
         no_data = findViewById(R.id.no_data);
 
-       // Intent intent = new Intent(UserActivity.this.getApplicationContext(), UserActivity.class);
 
         myDB = new MyDatabaseHelper(UserActivity.this);
         donation_id = new ArrayList<>();
@@ -62,8 +61,10 @@ public class UserActivity extends AppCompatActivity {
 
             if (isUpdated) {
                 Toast.makeText(getApplicationContext(), id_toUpdate + " booked", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Error in booking", Toast.LENGTH_SHORT).show();
+            }
+             else{
+                    Toast.makeText(getApplicationContext(), "Error in booking", Toast.LENGTH_SHORT).show();
+                }
             }
             storeDataInArrays();
 
@@ -71,7 +72,7 @@ public class UserActivity extends AppCompatActivity {
             recyclerView.setAdapter(userAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
 
-        }
+
     }
 
     @Override

@@ -76,11 +76,22 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
     public boolean updateToBooked(String row_id) {
         open();
         Cursor cursor =readAllData();
+        if (cursor== null)
+        {
+            Toast.makeText(context, row_id +"cursor empty", Toast.LENGTH_SHORT).show();
+
+        }
 
         if(cursor.moveToFirst()){
+            Toast.makeText(context, row_id +"cursor", Toast.LENGTH_SHORT).show();
+
             do{
+                Toast.makeText(context, row_id +"String do", Toast.LENGTH_SHORT).show();
+
                 if(row_id.equals(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_ID))))
                 {
+                    Toast.makeText(context, row_id +"check", Toast.LENGTH_SHORT).show();
+
                     SQLiteDatabase db = this.getWritableDatabase();
                     ContentValues cv = new ContentValues();
                     cv.put(COLUMN_ADDRESS, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_ADDRESS)));
@@ -89,16 +100,22 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                     cv.put(COLUMN_QUANTITY, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_QUANTITY)));
 
                     long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
+                    Toast.makeText(context, result+" Failed", Toast.LENGTH_SHORT).show();
+
                     if (result == -1) {
                         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+                        db.close();
+                        return true;
+
                     }
-                    return true;
+                    db.close();
                 }
             }while (cursor.moveToNext());
         }
-        return true;
+        return false;
     }
 
     Cursor readAllData() {
@@ -114,22 +131,6 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
 
 
 
-  /*  void updateData(String row_id, String address, String type, int quantity) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_ADDRESS, address);
-        cv.put(COLUMN_TYPE, type);
-        cv.put(COLUMN_QUANTITY, quantity);
-
-        long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
-        if (result == -1) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
-        }
-
-    }*/
-
     void deleteOneRow(String row_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_NAME, "_id=?", new String[]{row_id});
@@ -140,8 +141,4 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-   /* void deleteAllData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME);
-    }*/
 }
