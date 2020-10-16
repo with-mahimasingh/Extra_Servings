@@ -87,6 +87,7 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
                         donar_address.add(cursor.getString(1));
                         food_type.add(cursor.getString(2));
                         quantity_serves.add(cursor.getString(4));
+                        food_status.add(cursor.getString(3));
                     }
                 }while(cursor.moveToNext());
             }
@@ -99,8 +100,6 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // MenuInflater inflater = getMenuInflater();
-        //inflater.inflate(R.menu.my_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

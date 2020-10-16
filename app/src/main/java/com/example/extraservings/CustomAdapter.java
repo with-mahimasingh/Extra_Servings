@@ -67,7 +67,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.donar_address_txt.setText(String.valueOf(donar_address.get(position)));
         holder.foodType_txt.setText(String.valueOf(food_type.get(position)));
         holder.quantityServes_txt.setText(String.valueOf(quantity_serves.get(position)));
-
+        holder.status_txt.setText(String.valueOf(status.get(position)));
 
         //Recyclerview onClickListener
        holder.request_button.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +83,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("address", String.valueOf(donar_address.get(position)));
                 intent.putExtra("quantity", String.valueOf(quantity_serves.get(position)));
                 intent.putExtra("ID",  String.valueOf(donation_id.get(position)));
+                intent.putExtra("status",  String.valueOf(status.get(position)));
 
                 activity.startActivityForResult(intent, 1);
                 view.getContext().startActivity(intent);
@@ -105,7 +106,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView donar_id_txt, donar_address_txt, foodType_txt, quantityServes_txt;
+        TextView donar_id_txt, donar_address_txt, foodType_txt, quantityServes_txt,status_txt;
         LinearLayout mainLayout;
         Button request_button;
 
@@ -118,6 +119,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             foodType_txt = itemView.findViewById(R.id.foodType_txt);
             quantityServes_txt = itemView.findViewById(R.id.quantity_txt);
             mainLayout = itemView.findViewById(R.id.mainLayout);
+            status_txt=itemView.findViewById(R.id.status_txt);
             request_button= itemView.findViewById(R.id.btn_request);
 
             request_button.setOnClickListener(new View.OnClickListener() {

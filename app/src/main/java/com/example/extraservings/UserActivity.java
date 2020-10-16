@@ -32,7 +32,7 @@ public class UserActivity extends AppCompatActivity {
     TextView no_data;
     Button btn_request;
     MyDatabaseHelper myDB;
-    ArrayList<String> donation_id, donar_address, food_type, quantity_serves;
+    ArrayList<String> donation_id, donar_address, food_type, quantity_serves, status;
     UserAdapter userAdapter;
 
     @Override
@@ -51,6 +51,7 @@ public class UserActivity extends AppCompatActivity {
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
+        status= new ArrayList<>();
 
         String id = getIntent().getStringExtra("ID");
         if(!id.equals("-1")) {
@@ -68,7 +69,7 @@ public class UserActivity extends AppCompatActivity {
             }
             storeDataInArrays();
 
-            userAdapter = new UserAdapter(UserActivity.this, this, donation_id, donar_address, food_type, quantity_serves);
+            userAdapter = new UserAdapter(UserActivity.this, this, donation_id, donar_address, food_type, quantity_serves, status);
             recyclerView.setAdapter(userAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
 
@@ -97,6 +98,8 @@ public class UserActivity extends AppCompatActivity {
                         donar_address.add(cursor.getString(1));
                         food_type.add(cursor.getString(2));
                         quantity_serves.add(cursor.getString(4));
+                        status.add(cursor.getString(3));
+
                     }
                 } while (cursor.moveToNext());
                 empty_imageview.setVisibility(View.GONE);

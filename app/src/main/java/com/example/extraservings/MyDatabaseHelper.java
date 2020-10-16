@@ -76,21 +76,13 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
     public boolean updateToBooked(String row_id) {
         open();
         Cursor cursor =readAllData();
-        if (cursor== null)
-        {
-            Toast.makeText(context, row_id +"cursor empty", Toast.LENGTH_SHORT).show();
-
-        }
 
         if(cursor.moveToFirst()){
-            Toast.makeText(context, row_id +"cursor", Toast.LENGTH_SHORT).show();
 
             do{
-                Toast.makeText(context, row_id +"String do", Toast.LENGTH_SHORT).show();
 
                 if(row_id.equals(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_ID))))
                 {
-                    Toast.makeText(context, row_id +"check", Toast.LENGTH_SHORT).show();
 
                     SQLiteDatabase db = this.getWritableDatabase();
                     ContentValues cv = new ContentValues();
