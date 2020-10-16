@@ -30,7 +30,7 @@ public class CheckNeedy extends AppCompatActivity {
     TextView no_data;
     Button btn_request;
     MyDatabaseHelper myDB;
-    ArrayList<String> donation_id, donar_address, food_type, quantity_serves;
+    ArrayList<String> donation_id, donar_address, food_type, quantity_serves,status;
     StatusCheckAdapter statusCheckAdapter;
 
     @Override
@@ -49,6 +49,7 @@ public class CheckNeedy extends AppCompatActivity {
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
+        status=new ArrayList<>();
 
         /*String id1 = getIntent().getStringExtra("ID");
 
@@ -64,7 +65,7 @@ public class CheckNeedy extends AppCompatActivity {
             }*/
             storeDataInArrays();
 
-            statusCheckAdapter = new StatusCheckAdapter(CheckNeedy.this, this, donation_id, donar_address, food_type, quantity_serves);
+            statusCheckAdapter = new StatusCheckAdapter(CheckNeedy.this, this, donation_id, donar_address, food_type, quantity_serves,status);
             recyclerView.setAdapter(statusCheckAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(CheckNeedy.this));
 
@@ -93,6 +94,8 @@ public class CheckNeedy extends AppCompatActivity {
                         donar_address.add(cursor.getString(1));
                         food_type.add(cursor.getString(2));
                         quantity_serves.add(cursor.getString(4));
+                        status.add(cursor.getString(3));
+
                     }
                 } while (cursor.moveToNext());
                 empty_imageview.setVisibility(View.GONE);
