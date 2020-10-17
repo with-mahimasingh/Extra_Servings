@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 
+import java.util.Calendar;
+
 class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private MyDatabaseHelper dbHelper;
@@ -25,6 +27,8 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ADDRESS = "donate_address";
     public static final String COLUMN_TYPE = "food_type";
     public static final String  COLUMN_QUANTITY = "quantity_serves";
+    public static final String  COLUMN_EXPIRY = "expiry_date";
+
 
     public MyDatabaseHelper open() throws SQLException {
         this.dbHelper = new MyDatabaseHelper(this.context);
@@ -44,7 +48,8 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_ADDRESS + " TEXT, " +
                 COLUMN_TYPE + " TEXT, " +
                 COLUMN_STATUS + " TEXT, " +
-                COLUMN_QUANTITY + " INTEGER);";
+                COLUMN_QUANTITY + " INTEGER, " +
+                COLUMN_EXPIRY + " TEXT);";
         db.execSQL(query);
 
     }
@@ -56,7 +61,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addDonar(String address, String foodType, int quantity, String foodStatus) {
+    void addDonar(String address, String foodType, int quantity, String foodStatus, String expiry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -65,6 +70,8 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_TYPE, foodType);
         cv.put(COLUMN_QUANTITY, quantity);
         cv.put(COLUMN_STATUS,foodStatus);
+        cv.put(COLUMN_EXPIRY,expiry);
+
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -76,6 +83,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
     public boolean updateToBooked(String row_id) {
         open();
         Cursor cursor =readAllData();
+        Calendar currentDate = Calendar.getInstance();
 
         if(cursor.moveToFirst()){
 
@@ -90,6 +98,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                     cv.put(COLUMN_TYPE, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_TYPE)));
                     cv.put(COLUMN_STATUS, "booked");
                     cv.put(COLUMN_QUANTITY, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_QUANTITY)));
+                    cv.put(COLUMN_EXPIRY, cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_EXPIRY)));
 
                     long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
                     Toast.makeText(context, result+" Failed", Toast.LENGTH_SHORT).show();

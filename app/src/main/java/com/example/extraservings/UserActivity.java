@@ -23,7 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -32,7 +37,7 @@ public class UserActivity extends AppCompatActivity {
     TextView no_data;
     Button btn_request;
     MyDatabaseHelper myDB;
-    ArrayList<String> donation_id, donar_address, food_type, quantity_serves, status;
+    ArrayList<String> donation_id, donar_address, food_type, quantity_serves,expiry_date;
     UserAdapter userAdapter;
 
     @Override
@@ -51,7 +56,7 @@ public class UserActivity extends AppCompatActivity {
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
-        status= new ArrayList<>();
+        expiry_date=new ArrayList<>();
 
         String id = getIntent().getStringExtra("ID");
         if(!id.equals("-1")) {
@@ -67,9 +72,13 @@ public class UserActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error in booking", Toast.LENGTH_SHORT).show();
                 }
             }
+        try {
             storeDataInArrays();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-            userAdapter = new UserAdapter(UserActivity.this, this, donation_id, donar_address, food_type, quantity_serves, status);
+        userAdapter = new UserAdapter(UserActivity.this, this, donation_id, donar_address, food_type, quantity_serves,expiry_date);
             recyclerView.setAdapter(userAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
 
@@ -84,22 +93,35 @@ public class UserActivity extends AppCompatActivity {
         }
     }
 
-    void storeDataInArrays() {
+    void storeDataInArrays() throws ParseException {
         Cursor cursor = myDB.readAllData();
         if (cursor.getCount() == 0) {
             empty_imageview.setVisibility(View.VISIBLE);
             no_data.setVisibility(View.VISIBLE);
         } else {
+
+
             if (cursor.moveToFirst()) {
+
+                final long today = System.currentTimeMillis() - 1000;
+                String dateString = cursor.getString(5);
+
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy",
+                        Locale.ENGLISH);
+                Date date = format.parse(dateString);
+            //    Toast.makeText(this, date + " date booked", Toast.LENGTH_LONG).show();
+
+                long milliseconds = date.getTime();
+
+                //Toast.makeText(getApplicationContext(), date + " date booked", Toast.LENGTH_LONG).show();
                 do {
-                    if (cursor.getString(3).equals("booked") || cursor.getString(3).equals("delivered")) {
+                    if ((cursor.getString(3).equals("booked") || cursor.getString(3).equals("delivered"))|| milliseconds>=today) {
 
                         donation_id.add(cursor.getString(0));
                         donar_address.add(cursor.getString(1));
                         food_type.add(cursor.getString(2));
                         quantity_serves.add(cursor.getString(4));
-                        status.add(cursor.getString(3));
-
+                        expiry_date.add(cursor.getString(5));
                     }
                 } while (cursor.moveToNext());
                 empty_imageview.setVisibility(View.GONE);

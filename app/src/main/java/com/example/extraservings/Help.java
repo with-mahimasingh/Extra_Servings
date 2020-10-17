@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Help extends AppCompatActivity implements LocationListener {
 
@@ -48,14 +50,22 @@ public class Help extends AppCompatActivity implements LocationListener {
         edt_name=findViewById(R.id.edt_name);
         btn_submit= findViewById(R.id.btn_submit);
 
+
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                String regex = "[a-zA-Z.\\s]+";
+
+                Pattern pattern = Pattern.compile(regex);
+
+                    Matcher matcher = pattern.matcher(edt_name.getText().toString());
+
+
                 if (TextUtils.isEmpty(edt_addresstxt.getText().toString()) || edt_addresstxt.length() < 5) {
                     displayToast("Please enter the correct address.");
                 }
-                if (TextUtils.isEmpty(edt_name.getText().toString()) || edt_name.length() < 2) {
+                if (TextUtils.isEmpty(edt_name.getText().toString()) || edt_name.length() < 2 || !matcher.matches()) {
                     displayToast("Please enter the correct name.");
                 }
 

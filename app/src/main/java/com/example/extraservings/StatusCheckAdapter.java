@@ -22,16 +22,16 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
 
     private Context context;
     private Activity activity;
-    private ArrayList donation_id, donar_address, food_type, quantity_serves, status;
+    private ArrayList donation_id, donar_address, food_type, quantity_serves, expiry_date;
 
-    StatusCheckAdapter(Activity activity, Context context, ArrayList donation_id, ArrayList donar_address, ArrayList food_type, ArrayList quantity_serves, ArrayList status) {
+    StatusCheckAdapter(Activity activity, Context context, ArrayList donation_id, ArrayList donar_address, ArrayList food_type, ArrayList quantity_serves, ArrayList expiry_date) {
         this.activity = activity;
         this.context = context;
         this.donation_id = donation_id;
         this.donar_address = donar_address;
         this.food_type = food_type;
         this.quantity_serves = quantity_serves;
-        this.status=status;
+        this.expiry_date=expiry_date;
     }
 
     @NonNull
@@ -50,7 +50,7 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
         holder.donar_address_txt.setText(String.valueOf(donar_address.get(position)));
         holder.foodType_txt.setText(String.valueOf(food_type.get(position)));
         holder.quantityServes_txt.setText(String.valueOf(quantity_serves.get(position)));
-        holder.status_txt.setText(String.valueOf(status.get(position)));
+        holder.expiry_txt.setText(String.valueOf(expiry_date.get(position)));
 
     }
 
@@ -61,7 +61,7 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView donar_id_txt, donar_address_txt, foodType_txt, quantityServes_txt, status_txt;
+        TextView donar_id_txt, donar_address_txt, foodType_txt, quantityServes_txt, expiry_txt;
         LinearLayout mainLayout;
 
         MyViewHolder(@NonNull View itemView) {
@@ -69,8 +69,9 @@ public class StatusCheckAdapter extends RecyclerView.Adapter<StatusCheckAdapter.
             donar_id_txt = itemView.findViewById(R.id.donate_id_txt);
             donar_address_txt = itemView.findViewById(R.id.address_txt);
             foodType_txt = itemView.findViewById(R.id.foodType_txt);
+            expiry_txt = itemView.findViewById(R.id.expiry_txt);
             quantityServes_txt = itemView.findViewById(R.id.quantity_txt);
-            status_txt = itemView.findViewById(R.id.status_txt);
+
             mainLayout = itemView.findViewById(R.id.mainLayout);
 
         }

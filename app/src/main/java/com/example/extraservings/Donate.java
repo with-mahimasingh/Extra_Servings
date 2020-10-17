@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -29,6 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,7 +42,7 @@ public class Donate extends AppCompatActivity implements LocationListener{
         Toast.makeText(this, "Network Unavailable. Please check your Network Settings.", Toast.LENGTH_SHORT).show();
 
     }
-    EditText edt_address;
+    EditText edt_address,expiry_txt;
     Button btn_donate;
     TextView quantitynumber;
     ImageButton plusquantity, minusquantity;
@@ -46,6 +50,8 @@ public class Donate extends AppCompatActivity implements LocationListener{
     private String foodType = "Dinner", quantityNumber;
     int quantity=1;
     LocationManager locationManager;
+    final Calendar myCalendar = Calendar.getInstance();
+    final long today = System.currentTimeMillis() - 1000;
 
 
     @Override
@@ -64,6 +70,9 @@ public class Donate extends AppCompatActivity implements LocationListener{
         radio_breakfast = (RadioButton)findViewById(R.id.radio_breakfast);
         radio_lunch = (RadioButton)findViewById(R.id.radio_lunch);
         radio_dinner = (RadioButton)findViewById(R.id.radio_dinner);
+         expiry_txt= (EditText) findViewById(R.id.expiry_txt);
+
+
 
         plusquantity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +90,7 @@ public class Donate extends AppCompatActivity implements LocationListener{
 
                 // because we dont want the quantity go less than 0
                 if (quantity == 1) {
-                    Toast.makeText(Donate.this, "Cant decrease quantity < 1", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Donate.this, "Can't decrease quantity < 1", Toast.LENGTH_SHORT).show();
                 } else {
                     quantity--;
                     displayQuantity();
@@ -122,11 +131,16 @@ public class Donate extends AppCompatActivity implements LocationListener{
                     public void onClick(View view) {
                         if (TextUtils.isEmpty(edt_address.getText().toString()) || edt_address.length() < 5) {
                             displayToast("Please enter the correct address.");
-                        } else {
+                        }
+                        if (TextUtils.isEmpty(expiry_txt.getText().toString())) {
+                            displayToast("Please enter the correct food expiration date.");
+                        }
+                        else {
                             MyDatabaseHelper myDB = new MyDatabaseHelper(Donate.this);
-                            myDB.addDonar(edt_address.getText().toString().trim(), foodType, quantity, "available");
+                            myDB.addDonar(edt_address.getText().toString().trim(), foodType, quantity, "available",expiry_txt.getText().toString().trim());
                         }
                     }
+
                 });
 
 
@@ -142,7 +156,56 @@ public class Donate extends AppCompatActivity implements LocationListener{
         getLocation();
 
 
-        }
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, monthOfYear, dayOfMonth);
+                //If user tries to select date in past (or today)
+                if (calendar.getTimeInMillis() < today)
+                {
+                    expiry_txt.getText().clear();
+                    Toast.makeText(Donate.this, "Invalid date, please try again!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    updateLabel();
+
+                }
+            }
+
+
+
+        };
+        expiry_txt.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+
+
+            public void onClick(View v) {
+                new DatePickerDialog(Donate.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+    }
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        expiry_txt.setText(sdf.format(myCalendar.getTime()));
+    }
+
 
     private void locationEnabled() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

@@ -140,8 +140,22 @@
                     android:background="@drawable/minus"/>
             </RelativeLayout>
         </ScrollView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:typeface="serif"
+            android:textColor="#000"
+            android:text="Select the Expiry Date:"/>
 
-
+        <EditText
+            android:id="@+id/expiry_txt"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:typeface="serif"
+            android:clickable="true"
+            android:focusable="false" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

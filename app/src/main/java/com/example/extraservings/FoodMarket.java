@@ -24,7 +24,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class FoodMarket extends AppCompatActivity implements RecyclerViewClickListener{
 
@@ -33,7 +39,7 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
     TextView no_data;
     Button btn_request;
     MyDatabaseHelper myDB;
-    ArrayList<String> donation_id, donar_address, food_type, quantity_serves, food_status;
+    ArrayList<String> donation_id, donar_address, food_type, quantity_serves,expiry_date;
     CustomAdapter customAdapter;
     String id, address, food, number, status;
 
@@ -53,11 +59,15 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         donar_address = new ArrayList<>();
         food_type = new ArrayList<>();
         quantity_serves = new ArrayList<>();
-        food_status = new ArrayList<>();
+        expiry_date=new ArrayList<>();
 
-        storeDataInArrays();
+        try {
+            storeDataInArrays();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        customAdapter = new CustomAdapter(FoodMarket.this, this, donation_id, donar_address,food_type,quantity_serves,food_status);
+        customAdapter = new CustomAdapter(FoodMarket.this, this, donation_id, donar_address,food_type,quantity_serves,expiry_date);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(FoodMarket.this));
 
@@ -73,13 +83,15 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
         }
     }
 
-    void storeDataInArrays() {
+    void storeDataInArrays() throws ParseException {
         Cursor cursor = myDB.readAllData();
         if (cursor.getCount() == 0) {
             empty_imageview.setVisibility(View.VISIBLE);
             no_data.setVisibility(View.VISIBLE);
         } else {
+
             if(cursor.moveToFirst()){
+
                 do {
 
                     if(cursor.getString(3).equals("available")){
@@ -87,7 +99,8 @@ public class FoodMarket extends AppCompatActivity implements RecyclerViewClickLi
                         donar_address.add(cursor.getString(1));
                         food_type.add(cursor.getString(2));
                         quantity_serves.add(cursor.getString(4));
-                        food_status.add(cursor.getString(3));
+                        expiry_date.add(cursor.getString(5));
+
                     }
                 }while(cursor.moveToNext());
             }
